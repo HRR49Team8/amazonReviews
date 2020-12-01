@@ -1,0 +1,6 @@
+# We're not going to check client files for now. Maybe later?
+src/
+
+node_modules/
+dist/
+spec/
