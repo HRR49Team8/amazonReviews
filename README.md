@@ -2,8 +2,11 @@
 
 ## Table of Contents
 
-1. [CRUD API](#CRUD)
-2. [Installation](#Installing)
+1. [Getting started](#getting-started)
+2. [Setting up a MySQL database](#setting-up)
+3. [Connecting to and seeding the database](#connecting-to)
+4. [Starting the client and server](#starting)
+5. [CRUD API](#CRUD)
 
 # Getting started
 
