@@ -1,12 +1,12 @@
-var mysql = require('mysql');
+const mysql = require('mysql');
 
-var connection = mysql.createConnection({
+const connection = mysql.createConnection({
   user: 'hrstudent',
   password: '1q@W3e$R',
-  database: 'amazonreviews'
+  database: 'amazonreviews',
 });
 
-connection.connect(function(err) {
+connection.connect((err) => {
   if (err) {
     console.error('Error connecting to MySQL database for Joe\'s Amazon Reviews service', err);
     return;

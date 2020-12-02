@@ -1,0 +1,11 @@
+# We're not going to check client files for now. Maybe later?
+src/
+
+dist/
+spec/
+
+# Config files
+node_modules/
+webpack.config.js
+package*
+.babelrc
