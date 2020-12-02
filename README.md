@@ -1,4 +1,9 @@
-# joe-service
+# Amazon Reviews
+
+## Table of Contents
+
+1. [CRUD API](#CRUD)
+2. [Installation](#Installing)
 
 # Getting started
 
@@ -6,7 +11,7 @@
 2. Navigate into the directory
 3. Run `npm install`
 
-# Setting up the database
+# Setting up a MySQL database
 1. Make sure you have MySQL installed (`mysql -V`)
 2. Navigate into your MySQL shell, create a user and grant them all permissions. For example, once you're in your MySQL shell, run these commands:
 
@@ -26,8 +31,15 @@
 2. In a separate terminal, to start the server: `npm run start-server`
 3. In your browser, open up `localhost:3004` to view the running service
 
-# CRUD API Endpoints
+## CRUD API
 
+Action | Method | URL
+-------|--------|-----
+Add a product review | POST | /api/reviews
+Get all reviews for a product | GET | api/reviews/:id
+Edit a review | PUT | /api/reviews
+Delete a review | DELETE | /reviews/:id
 
 # Questions, comments, grievances:
-- Email me: joebuono724(at)gmail.com
+- mikatpt(at)gmail.com
+- joebuono724(at)gmail.com
