@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 /** * Seeding script for database ** */
 
 const faker = require('faker');
