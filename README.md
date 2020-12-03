@@ -2,19 +2,27 @@
 
 ## Table of Contents
 
-1. [Getting started](#getting-started)
-2. [Setting up a MySQL database](#setting-up)
-3. [Connecting to and seeding the database](#connecting-to)
-4. [Starting the client and server](#starting)
-5. [CRUD API](#CRUD)
+1. [Prerequisites](#prerequisites)
+2. [Getting Started](#getting-started)
+3. [Setting Up](#setting-up)
+4. [Seeding Database](#seeding-database)
+5. [Starting the client and server](#starting)
+6. [CRUD API](#CRUD)
 
-# Getting started
+# Prerequisites
+  * npm
+  * Postgres
+  * Cassandra
+
+Please see notes.txt for instructions on database installations.
+
+# Getting Started
 
 1. Clone the repo onto your local machine
 2. Navigate into the directory
 3. Run `npm install`
 
-# Setting up a MySQL database
+# Setting Up
 1. Make sure you have MySQL installed (`mysql -V`)
 2. Navigate into your MySQL shell, create a user and grant them all permissions. For example, once you're in your MySQL shell, run these commands:
 
@@ -24,10 +32,13 @@
 
     `FLUSH PRIVILEGES;`
 
-# Connecting to and seeding the database
-1. In your terminal, `cd` back to the cloned repo and run this command to connect to the database: `mysql -u hrstudent -p < server/schema.sql`
-2. Run this command to seed the database: `npm run seed`, then "Control + C" to stop the seeding script
-3. (Optional) Navigate into your MySQL shell to check that the script actually created and seeded the database
+3. Make sure Postgres and Cassandra are installed.
+
+# Seeding Database
+1. ```npm run createCSV```
+  - BEWARE! Running this command will create approximately 4 GB of files, and take 4+ minutes depending on your CPU.
+2. To seed Postgres, run ```npm run seedPostgres```
+  - This will take 4+ minutes depending on your CPU.
 
 # Starting the client and server
 1. To start the client: `npm run start-client`
