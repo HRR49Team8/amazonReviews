@@ -1,0 +1,42 @@
+// ------------------------ Installing Postgres ------------------------ //
+
+Get auth keys
+  wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
+
+  sudo sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt/ $(lsb_release -sc)-pgdg main" > /etc/apt/sources.list.d/PostgreSQL.list'
+
+Update server
+  sudo apt-get -y update
+
+Install
+  sudo apt-get install postgresql-10
+
+Initial setup:
+  - sudo passwd postgres (to set password)
+
+  - sudo service postgresql start
+    - To make an alias: alias pgstart='sudo service postgresql start'
+
+  - sudo -u postgres psql
+    - alias: alias runpg='sudo -u postgres psql'
+
+
+// ------------------------ Installing Cassandra ------------------------ //
+
+sudo apt install openjdk-8-jdk
+
+wget -q -O - https://www.apache.org/dist/cassandra/KEYS | sudo apt-key add -
+
+sudo sh -c 'echo "deb http://www.apache.org/dist/cassandra/debian 311x main" > /etc/apt/sources.list.d/cassandra.list'
+
+sudo apt update
+sudo apt install cassandra
+
+Start scripts and aliases:
+  sudo service cassandra start
+  SET ALIAS: alias startcass='sudo service cassandra start'
+
+  To run cassandra, simply type
+  cqlsh
+
+  If cassandra is not running, cqlsh command will result in connection refused.
