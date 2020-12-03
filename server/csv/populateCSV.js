@@ -6,6 +6,9 @@ const { insertProduct, insertUser, insertReviews } = require('./createRandomData
 
 // --------------------------- WRITE USERS --------------------------- //
 
+console.log('Starting to write information to csv...');
+console.time();
+
 // I think 100-1000 users is fine - doesn't affect our dataset too much!
 const userLines = 100;
 const userFile = path.join(__dirname, '/users.csv');
@@ -33,8 +36,6 @@ prodStream.write(prodHeader, 'utf-8');
 writeCSV(prodStream, prodLines, insertProduct, 'utf-8', () => { prodStream.end(); });
 
 // --------------------------- WRITE REVIEWS --------------------------- //
-console.log('Starting to write reviews to csv...');
-console.time();
 
 // Use prodLines. With 1000-1,000,000 products, we will get ~10,000-10,000,000 reviews total.
 const reviewFile = path.join(__dirname, '/reviews.csv');

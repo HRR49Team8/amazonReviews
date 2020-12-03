@@ -30,8 +30,29 @@ CREATE TABLE IF NOT EXISTS reviews (
 );
 
 
+COPY products(product_name)
+FROM '/home/mikatpt/hackreactor/sdc/reviews/server/csv/products.csv'
+DELIMITER ','
+CSV HEADER;
+
+COPY users(user_name, country, avatar)
+FROM '/home/mikatpt/hackreactor/sdc/reviews/server/csv/users.csv'
+DELIMITER ','
+CSV HEADER;
+
+-- COPY reviews(product_id, user_id, overall_rating, review_date, headline, full_text, helpful, verified_purchase, product_photo)
+-- FROM '/home/mikatpt/hackreactor/sdc/reviews/server/csv/reviews.csv'
+-- DELIMITER ','
+-- CSV HEADER;
+
 /*  Execute this file from the command line by typing:
- *    mysql -u hrstudent -p < server/schema.sql
- *  to create the database and the tables.*/
+ *    sudo -u postgres psql < server/db/postgresSchema.sql
+ *  to create the database and the tables.
+ *
+ *  pv server/db/postgresSchema.sql | sudo -u postgres psql
+ *
+ *  To track progress of reviews copy:
+ *  pv server/csv/reviews.csv | sudo -u postgres psql -d amazonreviews -c "copy reviews(product_id, user_id, overall_rating, review_date, headline, full_text, helpful, verified_purchase, product_photo) from stdin delimiter ',' CSV HEADER;"
+ */
 
 
