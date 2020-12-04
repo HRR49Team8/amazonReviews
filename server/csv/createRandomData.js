@@ -56,7 +56,7 @@ const insertReviews = (productIndex) => {
     count++;
 
     const reviewInfo = `${product_id},${user_id},${overall_rating},${review_date},${headline},${full_text},${helpful},${verified_purchase},${product_photo}\n`;
-    result += isPostgres ? reviewInfo : `${count}${reviewInfo}`;
+    result += isPostgres ? reviewInfo : `${count},${reviewInfo}`;
   }
   return result;
 };
