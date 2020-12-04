@@ -35,10 +35,11 @@ Please see notes.txt for instructions on database installations.
 3. Make sure Postgres and Cassandra are installed.
 
 # Seeding Database
-1. ```npm run createCSV```
-  - BEWARE! Running this command will create approximately 4 GB of files, and take 4+ minutes depending on your CPU.
-2. To seed Postgres, run ```npm run seedPostgres```
-  - This will take 4+ minutes depending on your CPU.
+1. Within server/config.js, set the `isPostgres` boolean to false if you'd like to create a Cassandra CSV.
+2. ```npm run createCSV```
+  * BEWARE! Running this command will create approximately 4 GB of files, and take 4+ minutes depending on your CPU.
+3. To seed Postgres, run ```npm run seedPostgres```
+  * This will take 4+ minutes depending on your CPU.
 
 # Starting the client and server
 1. To start the client: `npm run start-client`
