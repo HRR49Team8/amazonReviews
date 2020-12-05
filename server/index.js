@@ -15,8 +15,17 @@ app.use(morgan('tiny'));
 app.get('/api/reviews/:id', (req, res) => {
   // console.log(req.params.id);
   console.log('request was made here-------');
-  db.query(`
-  SELECT reviews.product_id, reviews.user_id, reviews.overall_rating, reviews.review_date, reviews.headline, reviews.full_text, reviews.helpful, reviews.verified_purchase, reviews.product_photo, users.user_name, users.country, users.avatar FROM reviews INNER JOIN users ON reviews.user_id=users.id WHERE product_id=?`, [req.params.id], (err, results) => {
+  const queryString = `
+  SELECT r.product_id, r.user_id,
+  r.overall_rating, r.review_date,
+  r.headline, r.full_text, r.helpful, r.verified_purchase, r.product_photo,
+  u.user_name, u.country, u.avatar
+  FROM reviews AS r
+  INNER JOIN users AS u
+  ON r.user_id=u.id
+  WHERE r.product_id=?;`;
+
+  db.query(queryString, [req.params.id], (err, results) => {
     if (err) {
       res.status(404).send('There was an error in accessing the database');
     } else {
@@ -39,7 +48,7 @@ app.post('/api/reviews/', (req, res) => {
   ];
   const queryString = `
   INSERT INTO reviews(product_id, product_photo, user_id, overall_rating, review_date, headline, full_text, helpful, verified_purchase)
-  VALUES (?, ?, (SELECT id FROM users WHERE username = ? limit 1), ?, ?, ?, ?, ?, ?)
+  VALUES (?, ?, (SELECT id FROM users WHERE username = ? limit 1), ?, ?, ?, ?, ?, ?);
   `;
 
   db.query(queryString, params, (err, results) => {
