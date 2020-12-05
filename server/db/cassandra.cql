@@ -32,6 +32,12 @@ CREATE TABLE reviews(
   product_photo VARCHAR
 );
 
+CREATE INDEX IF NOT EXISTS prod_idx
+ON amazonreviews.products (product_name);
+
+CREATE INDEX IF NOT EXISTS prod_rvw_idx
+ON amazonreviews.reviews (product_id);
+
 COPY products (id, product_name)
 FROM '/home/mikatpt/hackreactor/sdc/reviews/server/csv/C_products.csv'
 WITH DELIMITER = ',' AND
@@ -48,5 +54,4 @@ FROM '/home/mikatpt/hackreactor/sdc/reviews/server/csv/C_reviews.csv'
 WITH DELIMITER = ',' AND
 HEADER = true;
 
--- pv server/csv/C_reviews.csv | sudo -u postgres psql -d amazonreviews -c "copy reviews(product_id, user_id, overall_rating, review_date, headline, full_text, helpful, verified_purchase, product_photo) from stdin delimiter ',' CSV HEADER;"
 -- cqlsh -f server/db/cassandra.cql localhost

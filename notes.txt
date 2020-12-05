@@ -40,3 +40,49 @@ Start scripts and aliases:
   cqlsh
 
   If cassandra is not running, cqlsh command will result in connection refused.
+
+// ------------------------ TESTING QUERIES ------------------------ //
+
+For Postgres:
+
+READ:
+  SELECT r.product_id, r.user_id,
+  r.overall_rating, r.review_date,
+  r.headline, r.full_text, r.helpful, r.verified_purchase, r.product_photo,
+  u.user_name, u.country, u.avatar
+  FROM reviews AS r
+  INNER JOIN users AS u
+  ON r.user_id=u.id
+  WHERE r.product_id=500;
+
+CREATE:
+  INSERT INTO reviews(product_id, product_photo, user_id, overall_rating, review_date, headline, full_text, helpful, verified_purchase)
+  VALUES (10001, 'testurl', (SELECT id FROM users WHERE user_name = 'Erna26' limit 1), 5, '2020-05-09 20:59:35.341', 'some more filler text', 'some full text filler', 22, true);
+
+UPDATE:
+  UPDATE reviews SET overall_rating = 4, headline = 'hey', full_text = 'how is it going?' WHERE id = 200;
+
+DELETE:
+  DELETE FROM reviews WHERE id = 9000000;
+
+
+For Cassandra:
+
+CREATE:
+INSERT INTO amazonreviews.reviews (id, product_id, product_photo, user_id, overall_rating, review_date, headline, full_text, helpful, verified_purchase)
+VALUES (10000001, 10001, 'testurl', 55, 5, '2020-05-09 20:59:35.341', 'some more filler text', 'some full text filler', 22, 1);
+
+
+READ:
+  SELECT product_id, user_id,
+  overall_rating, review_date,
+  headline, full_text, helpful,
+  verified_purchase, product_photo
+  FROM amazonreviews.reviews
+  WHERE product_id=5000;
+
+UPDATE:
+  UPDATE amazonreviews.reviews SET overall_rating = 4, headline = 'hey', full_text = 'how is it going?' WHERE id = 5000001 IF EXISTS;
+
+DELETE:
+  DELETE FROM amazonreviews.reviews WHERE id = 9000000 IF EXISTS;
