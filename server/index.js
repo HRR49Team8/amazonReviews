@@ -21,7 +21,7 @@ app.get('/api/reviews/:id', async (req, res) => {
   } catch (e) {
     res.status(404).send(e);
   }
-  res.status(200).send(response);
+  res.status(200).send(response.rows);
 });
 
 // POSTs a review into the next available ID.
