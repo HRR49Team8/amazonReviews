@@ -40,6 +40,8 @@ Please see notes.txt for instructions on database installations.
   * BEWARE! Running this command will create approximately 4 GB of files, and take 4+ minutes depending on your CPU.
 3. To seed Postgres, run ```npm run seedPostgres```
   * This will take 4+ minutes depending on your CPU.
+4. To seed Cassandra, run ```npm run seedCass```
+  * This will take 20+ minutes. Unfortunately, Cassandra is not optimized for CSV imports!
 
 # Starting the client and server
 1. To start the client: `npm run start-client`
