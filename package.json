@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "createCSV": "node server/csv/populateCSV.js",
+    "seedRandomData": "node server/csv/populateFakerData.js",
     "seedPostgres": "sudo -u postgres psql < server/db/postgresSchema.sql && pv server/csv/reviews.csv | sudo -u postgres psql -d amazonreviews -c `copy reviews(product_id, user_id, overall_rating, review_date, headline, full_text, helpful, verified_purchase, product_photo) from stdin delimiter ',' CSV HEADER;`",
     "seedCass": "cqlsh -f server/db/cassandra.cql localhost",
     "start-client": "webpack -d --watch",
