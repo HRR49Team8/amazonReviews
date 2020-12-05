@@ -1,17 +1,22 @@
-const mysql = require('mysql');
+const { Pool } = require('pg');
 
-const connection = mysql.createConnection({
-  user: 'hrstudent',
-  password: '1q@W3e$R',
+// Maybe add config here?
+const config = {
+  host: 'localhost',
+  user: 'student',
+  password: 'student',
   database: 'amazonreviews',
+  max: 20,
+  idleTimeoutMillis: 30000,
+  connectionTimeoutMillis: 2000,
+};
+const pool = new Pool(config);
+
+pool.on('error', (err) => {
+  console.error('Unexpected error on idle client', err);
+  process.exit(-1);
 });
 
-connection.connect((err) => {
-  if (err) {
-    console.error('Error connecting to MySQL database for Joe\'s Amazon Reviews service', err);
-    return;
-  }
-  console.log('Connected to MySQL database for Joe\'s Amazon Reviews service!');
-});
-
-module.exports = connection;
+module.exports = {
+  pool,
+};

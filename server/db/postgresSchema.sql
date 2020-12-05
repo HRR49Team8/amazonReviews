@@ -9,9 +9,6 @@ CREATE TABLE IF NOT EXISTS products (
   product_name VARCHAR(50) NOT NULL
 );
 
-CREATE INDEX product_idx
-ON products(id);
-
 CREATE TABLE IF NOT EXISTS users (
   id SERIAL PRIMARY KEY,
   user_name VARCHAR(50) NOT NULL,
@@ -29,12 +26,17 @@ CREATE TABLE IF NOT EXISTS reviews (
   full_text VARCHAR(1024) NOT NULL,
   helpful INT NOT NULL,
   verified_purchase BOOLEAN,
-  product_photo VARCHAR(512)
+  product_photo VARCHAR(512),
+  CONSTRAINT fk_product FOREIGN KEY(product_id) REFERENCES products(id),
+  CONSTRAINT fk_user FOREIGN KEY(user_id) REFERENCES users(id)
 );
 
 CREATE INDEX prod_id_idx
 ON reviews(product_id);
 
+GRANT ALL PRIVILEGES ON DATABASE amazonreviews TO student;
+GRANT ALL ON ALL TABLES IN SCHEMA public TO student;
+GRANT ALL ON ALL SEQUENCES IN SCHEMA public TO student;
 
 COPY products(product_name)
 FROM '/home/mikatpt/hackreactor/sdc/reviews/server/csv/products.csv'
