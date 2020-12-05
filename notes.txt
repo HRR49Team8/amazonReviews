@@ -41,6 +41,13 @@ Start scripts and aliases:
 
   If cassandra is not running, cqlsh command will result in connection refused.
 
+
+// ------------------------ DB Query Notes ------------------------ //
+
+I think if we actually have to implement anything client-side rather than just through straight server stress-tests, we'll want to make sure
+that there's an 'anonymous' user that we can use to insert random reviews:
+  insert into users(user_name, country, avatar) values('anonymous', 'United States', 'alex-avalos-vExD0Y0Aei0-unsplash.jpg');
+
 // ------------------------ TESTING QUERIES ------------------------ //
 
 For Postgres:
