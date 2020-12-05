@@ -1,6 +1,8 @@
 const faker = require('faker');
+
 const { s3AvatarDomain, randomAvatars, s3domain, s3Urls } = require('./assets/S3Info.js');
 const { data } = require('./assets/fakerData.json');
+const { isPostgres } = require('./config.js');
 
 const getRandomItems = () => {
   const randomProductName = faker.commerce.productName();
@@ -10,9 +12,9 @@ const getRandomItems = () => {
   return { randomProductName, randomDate, headline, full_text };
 };
 
-const insertProduct = () => {
+const insertProduct = (i) => {
   const { randomProductName } = data[Math.floor(Math.random() * 1000)];
-  return `${randomProductName}\n`;
+  return isPostgres ? `${randomProductName}\n` : `${i},${randomProductName}\n`;
 };
 
 const insertUser = (i) => {
@@ -20,7 +22,8 @@ const insertUser = (i) => {
   const randomCountry = (Math.random() <= 0.7) ? 'the United States' : faker.address.country();
   const randomAvatar = s3AvatarDomain + randomAvatars[i - 1];
 
-  return `${randomUserName},${randomCountry},${randomAvatar}\n`;
+  const userInfo = `${randomUserName},${randomCountry},${randomAvatar}\n`;
+  return isPostgres ? userInfo : `${i},${userInfo}`;
 };
 
 // Roughly mimics average distribution of Amazon reviews
@@ -31,6 +34,7 @@ const four = new Array(18).fill(4);
 const five = new Array(54).fill(5);
 const merged = [...one, ...two, ...three, ...four, ...five];
 
+let count = 0;
 // Create 0-20 reviews per product
 const insertReviews = (productIndex) => {
   let result = '';
@@ -49,8 +53,10 @@ const insertReviews = (productIndex) => {
     if (Math.random() >= 0.75) {
       product_photo = s3domain + s3Urls[Math.floor(Math.random() * 20)];
     }
+    count++;
 
-    result += `${product_id},${user_id},${overall_rating},${review_date},${headline},${full_text},${helpful},${verified_purchase},${product_photo}\n`;
+    const reviewInfo = `${product_id},${user_id},${overall_rating},${review_date},${headline},${full_text},${helpful},${verified_purchase},${product_photo}\n`;
+    result += isPostgres ? reviewInfo : `${count},${reviewInfo}`;
   }
   return result;
 };

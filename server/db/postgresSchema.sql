@@ -9,6 +9,9 @@ CREATE TABLE IF NOT EXISTS products (
   product_name VARCHAR(50) NOT NULL
 );
 
+CREATE INDEX product_idx
+ON products(id);
+
 CREATE TABLE IF NOT EXISTS users (
   id SERIAL PRIMARY KEY,
   user_name VARCHAR(50) NOT NULL,
@@ -28,6 +31,9 @@ CREATE TABLE IF NOT EXISTS reviews (
   verified_purchase BOOLEAN,
   product_photo VARCHAR(512)
 );
+
+CREATE INDEX prod_id_idx
+ON reviews(product_id);
 
 
 COPY products(product_name)
