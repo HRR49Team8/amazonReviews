@@ -21,6 +21,9 @@ Initial setup:
     - alias: alias runpg='sudo -u postgres psql'
 
 
+CREATE USER student WITH PASSWORD 'student';
+
+
 // ------------------------ Installing Cassandra ------------------------ //
 
 sudo apt install openjdk-8-jdk
@@ -64,7 +67,7 @@ READ:
 
 CREATE:
   INSERT INTO reviews(product_id, product_photo, user_id, overall_rating, review_date, headline, full_text, helpful, verified_purchase)
-  VALUES (10001, 'testurl', (SELECT id FROM users WHERE user_name = 'Erna26' limit 1), 5, '2020-05-09 20:59:35.341', 'some more filler text', 'some full text filler', 22, true);
+  VALUES (10001, 'testurl', (SELECT id FROM users WHERE user_name = 'George43' limit 1), 5, '2020-05-09 20:59:35.341', 'some more filler text', 'some full text filler', 22, true);
 
 UPDATE:
   UPDATE reviews SET overall_rating = 4, headline = 'hey', full_text = 'how is it going?' WHERE id = 200;
