@@ -4,22 +4,29 @@ const { s3AvatarDomain, randomAvatars, s3domain, s3Urls } = require('./assets/S3
 const { data } = require('./assets/fakerData.json');
 const { isPostgres } = require('./config.js');
 
-const getRandomItems = () => {
+// Returns random int from min to a non-inclusive max.
+const rng = (max, min = 0) => Math.floor(Math.random() * (max - min)) + min;
+
+const getRandomItems = async () => {
+  const regex = /,/g;
   const randomProductName = faker.commerce.productName();
   const randomDate = faker.date.past(5, '2020-11-13');
-  const headline = faker.random.words(Math.floor(Math.random() * 4) + 2);
-  const full_text = faker.random.words(Math.floor(Math.random() * (45 - 22)) + 22);
-  return { randomProductName, randomDate, headline, full_text };
+  const headline = (await faker.random.words(rng(6, 2))).replace(regex, '');
+  const full_text = (await faker.random.words(rng(21, 10))).replace(regex, '');
+  const randomUserName = faker.internet.userName();
+  const randomCountry = (Math.random() <= 0.7) ? 'the United States' : (await faker.address.country()).replace(regex, '');
+
+  return { randomProductName, randomDate, headline, full_text, randomUserName, randomCountry };
 };
 
 const insertProduct = (i) => {
-  const { randomProductName } = data[Math.floor(Math.random() * 1000)];
+  const { randomProductName } = data[rng(1000)];
   return isPostgres ? `${randomProductName}\n` : `${i},${randomProductName}\n`;
 };
 
 const insertUser = (i) => {
-  const randomUserName = faker.internet.userName();
-  const randomCountry = (Math.random() <= 0.7) ? 'the United States' : faker.address.country();
+  const { randomUserName } = data[rng(1000)];
+  const { randomCountry } = data[rng(1000)];
   const randomAvatar = s3AvatarDomain + randomAvatars[i - 1];
 
   const userInfo = `${randomUserName},${randomCountry},${randomAvatar}\n`;
@@ -39,19 +46,19 @@ let count = 0;
 const insertReviews = (productIndex) => {
   let result = '';
   // for each product_id, create a random number of reviews for each product
-  const numberOfReviews = Math.floor(Math.random() * 21);
+  const numberOfReviews = rng(21);
   for (let j = 0; j < numberOfReviews; j++) {
     const product_id = productIndex;
-    const user_id = Math.floor(Math.random() * 100) + 1;
-    const overall_rating = merged[Math.floor(Math.random() * 100)];
-    const review_date = data[Math.floor(Math.random() * 1000)].randomDate;
-    const { headline } = data[Math.floor(Math.random() * 1000)];
-    const { full_text } = data[Math.floor(Math.random() * 1000)];
-    const helpful = Math.floor(Math.random() * 40);
+    const user_id = rng(101, 1);
+    const overall_rating = merged[rng(100)];
+    const review_date = data[rng(1000)].randomDate;
+    const { headline } = data[rng(1000)];
+    const { full_text } = data[rng(1000)];
+    const helpful = rng(40);
     const verified_purchase = (Math.random() <= 0.7) ? 1 : 0;
     let product_photo = null;
     if (Math.random() >= 0.75) {
-      product_photo = s3domain + s3Urls[Math.floor(Math.random() * 20)];
+      product_photo = s3domain + s3Urls[rng(20)];
     }
     count++;
 
