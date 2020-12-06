@@ -7,13 +7,14 @@ const { isPostgres } = require('./config.js');
 // Returns random int from min to a non-inclusive max.
 const rng = (max, min = 0) => Math.floor(Math.random() * (max - min)) + min;
 
-const getRandomItems = () => {
+const getRandomItems = async () => {
+  const regex = /,/g;
   const randomProductName = faker.commerce.productName();
   const randomDate = faker.date.past(5, '2020-11-13');
-  const headline = faker.random.words(rng(6, 2));
-  const full_text = faker.random.words(rng(21, 10));
+  const headline = (await faker.random.words(rng(6, 2))).replace(regex, '');
+  const full_text = (await faker.random.words(rng(21, 10))).replace(regex, '');
   const randomUserName = faker.internet.userName();
-  const randomCountry = (Math.random() <= 0.7) ? 'the United States' : faker.address.country();
+  const randomCountry = (Math.random() <= 0.7) ? 'the United States' : (await faker.address.country()).replace(regex, '');
 
   return { randomProductName, randomDate, headline, full_text, randomUserName, randomCountry };
 };
