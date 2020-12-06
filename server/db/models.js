@@ -24,7 +24,7 @@ const getReviews = async (id) => {
 const postReview = async (params) => {
   const queryString = `
   INSERT INTO reviews(product_id, product_photo, user_id, overall_rating, review_date, headline, full_text, helpful, verified_purchase)
-  VALUES ($1, $2, (SELECT id FROM users WHERE username = $3 limit 1), $4, $5, $6, $7, $8, $9);`;
+  VALUES ($1, $2, (SELECT id FROM users WHERE users.user_name = $3 limit 1), $4, $5, $6, $7, $8, $9);`;
 
   let response;
   try {

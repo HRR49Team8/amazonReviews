@@ -66,7 +66,7 @@ app.delete('/api/reviews/:id', async (req, res) => {
   // Deletes a review. Do we have access to the review ID? We should.
   let response;
   try {
-    response = await deleteReview(req.params.id);
+    response = await deleteReview([req.params.id]);
   } catch (e) {
     res.status(500).send(e);
   }
