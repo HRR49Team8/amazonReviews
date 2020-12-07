@@ -1,3 +1,5 @@
+require('dotenv').config();
+require('newrelic');
 const express = require('express');
 const morgan = require('morgan');
 const { getReviews, postReview, updateReview, deleteReview } = require('./db/models.js');
@@ -19,9 +21,9 @@ app.get('/api/reviews/:id', async (req, res) => {
   try {
     response = await getReviews(req.params.id);
   } catch (e) {
-    res.status(404).send(e);
+    return res.status(404).send(e);
   }
-  res.status(200).send(response.rows);
+  return res.status(200).send(response.rows);
 });
 
 // POSTs a review into the next available ID.
@@ -42,9 +44,9 @@ app.post('/api/reviews/', async (req, res) => {
   try {
     response = await postReview(params);
   } catch (e) {
-    res.status(500).send(e);
+    return res.status(500).send(e);
   }
-  res.status(200).send(response);
+  return res.status(200).send(response);
 });
 
 // Permit editing a review, probably only the guest's reviews for now?
@@ -57,9 +59,9 @@ app.put('/api/reviews/', async (req, res) => {
   try {
     response = await updateReview(params);
   } catch (e) {
-    res.status(500).send(e);
+    return res.status(500).send(e);
   }
-  res.status(200).send(response);
+  return res.status(200).send(response);
 });
 
 app.delete('/api/reviews/:id', async (req, res) => {
@@ -68,9 +70,9 @@ app.delete('/api/reviews/:id', async (req, res) => {
   try {
     response = await deleteReview([req.params.id]);
   } catch (e) {
-    res.status(500).send(e);
+    return res.status(500).send(e);
   }
-  res.status(200).send(response);
+  return res.status(200).send(response);
 });
 
 const port = process.env.PORT || 3004;

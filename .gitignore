@@ -1,7 +1,12 @@
-node_modules
-
+# General configuration
 client/dist/bundle.js
+node_modules
+.env
 
-*.pem
-
+# Large files, logs
 *.csv
+newrelic_agent*
+
+# AWS Deployment Info
+*.pem
+login.sh

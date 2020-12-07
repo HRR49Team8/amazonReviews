@@ -22,6 +22,7 @@ Initial setup:
 
 
 CREATE USER student WITH PASSWORD 'student';
+See postgresSchema.sql for other authentication.
 
 
 // ------------------------ Installing Cassandra ------------------------ //
