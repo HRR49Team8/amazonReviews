@@ -1,24 +1,28 @@
 // ------------------------ Installing Postgres ------------------------ //
 
 Get auth keys
-  wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
 
-  sudo sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt/ $(lsb_release -sc)-pgdg main" > /etc/apt/sources.list.d/PostgreSQL.list'
+wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
+sudo sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt/ $(lsb_release -sc)-pgdg main" > /etc/apt/sources.list.d/PostgreSQL.list'
 
 Update server
-  sudo apt-get -y update
+
+sudo apt-get -y update
 
 Install
-  sudo apt-get install postgresql-10
+
+sudo apt-get install postgresql-10
 
 Initial setup:
-  - sudo passwd postgres (to set password)
 
-  - sudo service postgresql start
-    - To make an alias: alias pgstart='sudo service postgresql start'
+sudo passwd postgres
+  (to set password)
 
-  - sudo -u postgres psql
-    - alias: alias runpg='sudo -u postgres psql'
+sudo service postgresql start
+  - To make an alias: alias pgstart='sudo service postgresql start'
+
+sudo -u postgres psql
+  - alias: alias runpg='sudo -u postgres psql'
 
 
 CREATE USER student WITH PASSWORD 'student';
@@ -97,3 +101,21 @@ UPDATE:
 
 DELETE:
   DELETE FROM amazonreviews.reviews WHERE id = 9000000 IF EXISTS;
+
+
+// --------------------------------- INITIALIZE WEB SERVER --------------------------------- //
+
+AWS instructions.
+
+Install node:
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.34.0/install.sh | bash
+
+. ~/.nvm/nvm.sh
+
+nvm install node
+nvm install 14
+nvm alias default 14
+  - (these are to use version 14 by default, which is stable.)
+
+SEE ABOVE SECTION FOR POSTGRES INSTALLATION INSTRUCTIONS.
+

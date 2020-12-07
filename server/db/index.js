@@ -5,6 +5,7 @@ const config = {
   host: 'localhost',
   user: 'student',
   password: 'student',
+  port: 5432,
   database: 'amazonreviews',
   max: 20,
   idleTimeoutMillis: 30000,
