@@ -1,18 +1,18 @@
 // Reuse this to write one CSV file per table.
 const writeCSV = (writeStream, lines, func, encoding, done) => {
-  let i = lines;
+  let i = 1;
   const write = () => {
     let canWrite = true;
     do {
       const csv = func(i);
-      i--;
-      // Once i is 0, we finish writing.
-      if (i === 0) writeStream.write(csv, encoding, done);
+      i++;
+      // Once i = lines, we finish writing.
+      if (i === lines) writeStream.write(csv, encoding, done);
       else canWrite = writeStream.write(csv, encoding);
-    } while (i > 0 && canWrite);
+    } while (i < lines && canWrite);
 
     // If buffer is full, wait until it has drained and continue writing.
-    if (i > 0 && !canWrite) { writeStream.once('drain', write); }
+    if (i < lines && !canWrite) { writeStream.once('drain', write); }
   };
   write();
 };
