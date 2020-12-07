@@ -9,3 +9,5 @@ node_modules/
 webpack.config.js
 package*
 .babelrc
+newrelic.js
+.env

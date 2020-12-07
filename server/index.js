@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const morgan = require('morgan');
 const { getReviews, postReview, updateReview, deleteReview } = require('./db/models.js');
