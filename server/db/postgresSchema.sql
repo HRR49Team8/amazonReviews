@@ -71,26 +71,19 @@ GRANT ALL PRIVILEGES ON DATABASE amazonreviews TO student;
 GRANT ALL ON ALL TABLES IN SCHEMA public TO student;
 GRANT ALL ON ALL SEQUENCES IN SCHEMA public TO student;
 
-COPY products(product_name)
-FROM '/home/mikatpt/hackreactor/sdc/reviews/server/csv/products.csv'
-DELIMITER ','
-CSV HEADER;
+-- Saved for reference - we're doing this with a bash script now!
 
-COPY users(user_name, country, avatar)
-FROM '/home/mikatpt/hackreactor/sdc/reviews/server/csv/users.csv'
-DELIMITER ','
-CSV HEADER;
+-- COPY products(product_name)
+-- FROM '/home/mikatpt/hackreactor/sdc/reviews/server/csv/products.csv'
+-- DELIMITER ','
+-- CSV HEADER;
+
+-- COPY users(user_name, country, avatar)
+-- FROM '/home/mikatpt/hackreactor/sdc/reviews/server/csv/users.csv'
+-- DELIMITER ','
+-- CSV HEADER;
 
 -- COPY reviews(product_id, user_id, overall_rating, review_date, headline, full_text, helpful, verified_purchase, product_photo)
 -- FROM '/home/mikatpt/hackreactor/sdc/reviews/server/csv/reviews.csv'
 -- DELIMITER ','
 -- CSV HEADER;
-
-/*  To create the database and the tables from the command line:
- *    sudo -u postgres psql < server/db/postgresSchema.sql
- *
- *  To track progress of reviews copy:
- *  pv server/csv/reviews.csv | sudo -u postgres psql -d amazonreviews -c "copy reviews(product_id, user_id, overall_rating, review_date, headline, full_text, helpful, verified_purchase, product_photo) from stdin delimiter ',' CSV HEADER;"
- */
-
-

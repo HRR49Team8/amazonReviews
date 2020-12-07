@@ -2,9 +2,10 @@ const { Pool } = require('pg');
 
 // Maybe add config here?
 const config = {
-  host: 'localhost',
+  host: process.env.DBSERVER, // Change to localhost if not deployed!
   user: 'student',
   password: 'student',
+  port: 5432,
   database: 'amazonreviews',
   max: 20,
   idleTimeoutMillis: 30000,
