@@ -119,3 +119,6 @@ nvm alias default 14
 
 SEE ABOVE SECTION FOR POSTGRES INSTALLATION INSTRUCTIONS.
 
+Install pv
+
+sudo apt-get install pv
