@@ -9,4 +9,4 @@ newrelic_agent*
 
 # AWS Deployment Info
 *.pem
-login.sh
+*.sh
