@@ -28,10 +28,11 @@ class App extends Component {
   }
 
   componentDidMount() {
-    // const randomProductId = window.location.pathname.split('/').join('');
-    // console.log(window.location.pathname);
-    const randomProductId = Math.floor(Math.random() * 100) + 1;
-    axios.get(`/api/reviews/${randomProductId}`)
+    const randomProductId = Math.floor(Math.random() * (1000000 - 1)) + 1;
+    const url = window.location.href.split('/');
+    const last = url[url.length - 1];
+    const id = (isNaN(last) || last === '') ? randomProductId : last;
+    axios.get(`/api/reviews/${id}`)
       .then(results => {
         this.setState({
           reviews: results.data,
@@ -57,7 +58,7 @@ class App extends Component {
     const ratings = reviews.map(review => review.overall_rating);
     const imageUrls = [];
     reviews.forEach(review => {
-      if (review.product_photo) {
+      if (review.product_photo !== 'null') {
         imageUrls.push(review.product_photo);
       }
     });
