@@ -27,7 +27,7 @@ const insertProduct = (i) => {
 const insertUser = (i) => {
   const { randomUserName } = data[rng(1000)];
   const { randomCountry } = data[rng(1000)];
-  const randomAvatar = s3AvatarDomain + randomAvatars[i - 1];
+  const randomAvatar = s3AvatarDomain + randomAvatars[rng(100)];
 
   const userInfo = `${randomUserName},${randomCountry},${randomAvatar}\n`;
   return isPostgres ? userInfo : `${i},${userInfo}`;
