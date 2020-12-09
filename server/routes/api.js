@@ -15,12 +15,12 @@ router.post('/reviews/', async (req, res) => {
   // Client-side, expect a valid user OR anonymous.
   // Expects from req.body these things:
   const {
-    productId, user_name, overall_rating, review_date,
+    product_id, user_name, overall_rating, review_date,
     headline, full_text, helpful, verified_purchase, product_photo,
   } = req.body;
 
   const params = [
-    productId, product_photo, user_name, overall_rating,
+    product_id, product_photo, user_name, overall_rating,
     review_date, headline, full_text, helpful, verified_purchase,
   ];
 
@@ -35,8 +35,8 @@ router.post('/reviews/', async (req, res) => {
 
 router.put('/reviews/', async (req, res) => {
   // Possible changes include: overall_rating, headline, full_text
-  const { overall_rating, headline, full_text, id } = req.body;
-  const params = [overall_rating, headline, full_text, id];
+  const { overall_rating, headline, full_text, id, product_id } = req.body;
+  const params = [overall_rating, headline, full_text, id, product_id];
 
   let response;
   try {

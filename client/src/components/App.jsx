@@ -27,8 +27,8 @@ class App extends Component {
     });
   }
 
-  componentDidMount() {
-    const randomProductId = Math.floor(Math.random() * (1000000 - 1)) + 1;
+  componentDidMount() { // test from 900,000 to 999,999
+    const randomProductId = Math.floor(Math.random() * (100000)) + 900000;
     const url = window.location.href.split('/');
     const last = url[url.length - 1];
     const id = (isNaN(last) || last === '') ? randomProductId : last;
@@ -43,7 +43,7 @@ class App extends Component {
   }
 
   render() {
-    let reviews = this.state.reviews;
+    let reviews = this.state.reviews.slice(0, 21);
 
     const unitedStates = [];
     const international = [];
