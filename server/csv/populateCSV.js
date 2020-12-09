@@ -2,14 +2,13 @@ const path = require('path');
 const fs = require('fs');
 
 const { writeCSV } = require('./CSVWriter.js');
-const { isPostgres } = require('./config.js');
+const { isPostgres, lines } = require('./config.js');
 const { insertProduct, insertUser, insertReviews } = require('./createRandomData.js');
 
 // --------------------------- WRITE USERS --------------------------- //
 
 // This will create n users, n products, and 10n reviews.
 // ...which means if lines = 10 million, reviews = 100 million. Beware!
-const lines = 1000000;
 
 console.log('Starting to write information to csv...');
 console.time();
