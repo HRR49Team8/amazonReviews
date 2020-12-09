@@ -12,7 +12,6 @@
 # Prerequisites
   * npm
   * Postgres
-  * Cassandra
 
 Please see notes.txt for instructions on database installations.
 
@@ -21,18 +20,7 @@ Please see notes.txt for instructions on database installations.
 1. Clone the repo onto your local machine
 2. Navigate into the directory
 3. Run `npm install`
-
-# Setting Up
-1. Make sure you have MySQL installed (`mysql -V`)
-2. Navigate into your MySQL shell, create a user and grant them all permissions. For example, once you're in your MySQL shell, run these commands:
-
-    `CREATE USER 'hrstudent'@'localhost' IDENTIFIED BY '1q@W3e$R';`
-
-    `GRANT ALL PRIVILEGES ON * . * TO 'hrstudent'@'localhost';`
-
-    `FLUSH PRIVILEGES;`
-
-3. Make sure Postgres and Cassandra are installed.
+4. Run `sudo apt-get install pv`
 
 # Seeding Database
 1. Within server/config.js, set the `isPostgres` boolean to false if you'd like to create a Cassandra CSV.

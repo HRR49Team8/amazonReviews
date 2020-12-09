@@ -65,8 +65,7 @@ CREATE TABLE IF NOT EXISTS reviews (
 
 ---------------------- END SECTION ----------------------
 
-
-
+CREATE USER IF NOT EXISTS student WITH PASSWORD 'student';
 GRANT ALL PRIVILEGES ON DATABASE amazonreviews TO student;
 GRANT ALL ON ALL TABLES IN SCHEMA public TO student;
 GRANT ALL ON ALL SEQUENCES IN SCHEMA public TO student;
