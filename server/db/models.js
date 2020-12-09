@@ -37,7 +37,7 @@ const postReview = async (params) => {
 };
 
 const updateReview = async (params) => {
-  const queryString = 'UPDATE reviews SET overall_rating = $1, headline = $2, full_text = $3 WHERE id = $4';
+  const queryString = 'UPDATE reviews SET overall_rating = $1, headline = $2, full_text = $3 WHERE id = $4 AND product_id = $5';
 
   let response;
   try {
