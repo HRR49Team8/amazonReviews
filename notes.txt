@@ -128,7 +128,7 @@ postgres=#\password
 
 sudo vim /etc/postgresql/10/main/pg_hba.conf
 # Near bottom of file after local rules, add rule (allows remote access):
-host    all             all             0.0.0.0/0               md5
+host    all             all             DBPRIVATEIPHERE/0          md5
 
 sudo vim /etc/postgresql/10/main/postgresql.conf
 # Change line 59 to listen to external requests:
