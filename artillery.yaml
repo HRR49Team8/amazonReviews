@@ -1,0 +1,40 @@
+config:
+  target: "http://localhost:3004"
+  tls:
+    rejectUnauthorized: false
+  phases:
+    - duration : 60
+      arrivalRate: 100
+
+scenarios:
+  - flow:
+    - get:
+        url: "/"
+    - post:
+        url: '/api/reviews'
+        json:
+          product_id: 9999993
+          user_name: "anonymous"
+          overall_rating: 5
+          review_date: "2020-05-09 20:59:35.432"
+          headline: "TESTING"
+          full_text: "TESTTESTTESTTESTTEST"
+          helpful: 22
+          verified_purchase: true
+          product_photo: "https://hr-fec.s3.us-east-2.amazonaws.com/random-avatars/brooke-cagle-kvKSL7B6eTo-unsplash.jpg"
+    - get:
+        url: '/999998'
+    - get:
+        url: "/"
+    - get:
+        url: "/"
+    - get:
+        url: "/"
+    - get:
+        url: "/"
+    - get:
+        url: "/"
+    - get:
+        url: "/"
+    - get:
+        url: "/"
