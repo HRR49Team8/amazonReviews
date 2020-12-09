@@ -10,3 +10,4 @@ newrelic_agent*
 # AWS Deployment Info
 *.pem
 *.sh
+loaderio*
