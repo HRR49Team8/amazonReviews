@@ -142,7 +142,15 @@ sudo /etc/init.d/postgresql restart​
 
 sudo psql -h PRIVATEIP -U postgres
 
-6. Install pv
+6. Set to auto-start
+
+sudo systemctl enable postgresql
+
+SERVICE:
+
+run nvm installs, git clone, npm install
+
+Install pv
 
 sudo apt-get install pv
 

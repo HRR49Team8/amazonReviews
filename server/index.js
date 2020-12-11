@@ -14,8 +14,8 @@ app.use(express.static('client/dist'));
 app.use(express.json());
 app.use(morgan('tiny'));
 
-app.use('/api', apiRoutes);
 app.use('/', webRoutes);
+app.use('/api', apiRoutes);
 
 const port = process.env.PORT || 3004;
 app.listen(port, () => { console.log(`The server is listening on port ${port}...`); });
