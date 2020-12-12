@@ -8,25 +8,15 @@ router.get('/reviews/:id', async (req, res) => {
   } catch (e) {
     return res.status(404).send(e);
   }
-  return res.status(200).send(response.rows);
+  return res.status(200).send(response);
 });
 
 router.post('/reviews/', async (req, res) => {
   // Client-side, expect a valid user OR anonymous.
-  // Expects from req.body these things:
-  const {
-    product_id, user_name, overall_rating, review_date,
-    headline, full_text, helpful, verified_purchase, product_photo,
-  } = req.body;
-
-  const params = [
-    product_id, product_photo, user_name, overall_rating,
-    review_date, headline, full_text, helpful, verified_purchase,
-  ];
 
   let response;
   try {
-    response = await postReview(params);
+    response = await postReview(req.body);
   } catch (e) {
     return res.status(500).send(e);
   }
