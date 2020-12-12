@@ -1,8 +1,13 @@
 const { Pool } = require('pg');
+const redis = require('redis');
 
-// Maybe add config here?
+const client = redis.createClient({
+  port: 6379,
+  host: process.env.REDIS || '127.0.0.1',
+});
+
 const config = {
-  host: process.env.DBSERVER, // Change to localhost if not deployed!
+  host: process.env.DBSERVER || 'localhost',
   user: 'student',
   password: 'student',
   port: 5432,
@@ -13,6 +18,8 @@ const config = {
 };
 const pool = new Pool(config);
 
+client.on('error', (err) => console.error(err));
+
 pool.on('error', (err) => {
   console.error('Unexpected error on idle client', err);
   process.exit(-1);
@@ -20,4 +27,5 @@ pool.on('error', (err) => {
 
 module.exports = {
   pool,
+  client,
 };
