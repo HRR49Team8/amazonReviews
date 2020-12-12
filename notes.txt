@@ -173,3 +173,18 @@ insert into users(user_name, country, avatar) values ('anonymous', 'the United S
 After every artillery test, you'll want to delete the reviews you added in. Example:
 delete from reviews where product_id = 999993 and user_id = 1000000;
 
+
+Redis
+
+We had issues installing, but it's not THAT big a deal. Probably won't use it on this computer much anyways.
+
+To start, run this command:
+redis-server /etc/redis/redis.conf
+
+It will run in its own terminal.
+
+To end, ctrl-C it.
+
+To enter the shell:
+redis-cli
+  - you can also shutdown redis from here using shutdown
