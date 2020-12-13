@@ -3,6 +3,7 @@ const { pool, client } = require('./index.js');
 
 const redisGet = promisify(client.get).bind(client);
 const redisSet = promisify(client.set).bind(client);
+const rpush = promisify(client.rpush).bind(client);
 
 const getReviews = async (id) => {
   const queryString = `
@@ -31,28 +32,41 @@ const getReviews = async (id) => {
 };
 
 const postReview = async (body) => {
-  const queryString = `
-  INSERT INTO reviews(product_id, product_photo, user_id, overall_rating, review_date, headline, full_text, helpful, verified_purchase)
-  VALUES ($1, $2, (SELECT id FROM users WHERE users.user_name = $3 limit 1), $4, $5, $6, $7, $8, $9);`;
-  const {
-    product_id, user_name, overall_rating, review_date,
-    headline, full_text, helpful, verified_purchase, product_photo,
-  } = body;
-
-  const params = [
-    product_id, product_photo, user_name, overall_rating,
-    review_date, headline, full_text, helpful, verified_purchase,
-  ];
-
+  const toPost = JSON.stringify(body);
   let response;
   try {
-    response = await pool.query(queryString, params);
+    response = await rpush('reviewqueue', toPost);
   } catch (e) {
     console.error(e);
     throw (e);
   }
   return response;
 };
+// const postReview = async (body) => {
+//   const queryString = `
+//   INSERT INTO reviews(product_id, product_photo, user_id, overall_rating,
+//   review_date, headline, full_text, helpful, verified_purchase)
+//   VALUES ($1, $2, (SELECT id FROM users WHERE
+//   users.user_name = $3 limit 1), $4, $5, $6, $7, $8, $9);`;
+//   const {
+//     product_id, user_name, overall_rating, review_date,
+//     headline, full_text, helpful, verified_purchase, product_photo,
+//   } = body;
+
+//   const params = [
+//     product_id, product_photo, user_name, overall_rating,
+//     review_date, headline, full_text, helpful, verified_purchase,
+//   ];
+
+//   let response;
+//   try {
+//     response = await pool.query(queryString, params);
+//   } catch (e) {
+//     console.error(e);
+//     throw (e);
+//   }
+//   return response;
+// };
 
 const updateReview = async (params) => {
   const queryString = 'UPDATE reviews SET overall_rating = $1, headline = $2, full_text = $3 WHERE id = $4 AND product_id = $5';
