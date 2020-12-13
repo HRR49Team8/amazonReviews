@@ -13,14 +13,12 @@ router.get('/reviews/:id', async (req, res) => {
 
 router.post('/reviews/', async (req, res) => {
   // Client-side, expect a valid user OR anonymous.
-
-  let response;
   try {
-    response = await postReview(req.body);
+    await postReview(req.body);
   } catch (e) {
     return res.status(500).send(e);
   }
-  return res.status(200).send(response);
+  return res.status(200).send('Posted!');
 });
 
 router.put('/reviews/', async (req, res) => {
