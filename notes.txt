@@ -161,22 +161,64 @@ pm2 start "npm run start" --name proxy
 pm2 save
 pm2 startup
 
-
-
 STRESS TESTING NOTES:
-
 
 First run this line to establish a user for the sake of inserting reviews:
 insert into users(user_name, country, avatar) values ('anonymous', 'the United States', 'https://hr-fec.s3.us-east-2.ama');
 
+Content-Type: application/json
 
-After every artillery test, you'll want to delete the reviews you added in. Example:
+Post this to /api/reviews
+{
+    "product_id": 999993,
+    "user_name": "anonymous",
+    "overall_rating": 5,
+    "review_date": "2020-05-09 20:59:35.341",
+    "headline": "hello world",
+    "full_text": "hello hello world",
+    "helpful": 22,
+    "verified_purchase": true,
+    "product_photo": "https://hr-fec.s3.us-east-2.amazonaws.com/random-avatars/brooke-cagle-kvKSL7B6eTo-unsplash.jpg"
+}
+
+
+After every artillery test, you'll want to delete the reviews you added in:
 delete from reviews where product_id = 999993 and user_id = 1000000;
 
+Postgres optimizations:
+
+In the DB instance:
+
+sudo vim /etc/postgresql/10/main/postgresql.conf
+Change line 113 to shared_buffers = 250MB
+
+Since one EC2 instance has 1GB of memory, we give it 25%.
+When done,
+sudo service postgresql restart
 
 Redis
 
 We had issues installing, but it's not THAT big a deal. Probably won't use it on this computer much anyways.
+
+To install on an instance:
+
+sudo apt-get update
+sudo apt-get install redis-server
+sudo systemctl enable redis-server.service
+
+sudo vim /etc/redis/redis.conf
+  bind 0.0.0.0 (line 70)
+    this is fine because we can only access this server internally using private IPs!
+  comment out save 900 1, 300 10, 60 1000 in the SNAPSHOTTING section (line 147)
+  maxmemory 500mb (line 453)
+  maxmemory-policy allkeys-lru (line 476)
+
+
+To access on another instance WITHIN VPC:
+redis-cli -h PRIVATEIP
+
+
+On my comp:
 
 To start, run this command:
 redis-server /etc/redis/redis.conf
