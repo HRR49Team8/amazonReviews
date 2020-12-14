@@ -202,15 +202,14 @@ We had issues installing, but it's not THAT big a deal. Probably won't use it on
 
 To install on an instance:
 
-sudo apt-get update
-sudo apt-get install redis-server
-sudo systemctl enable redis-server.service
+Follow the digital ocean install guides to the letter, they work on pure linux distros.
 
 sudo vim /etc/redis/redis.conf
   bind 0.0.0.0 (line 70)
     this is fine because we can only access this server internally using private IPs!
   comment out save 900 1, 300 10, 60 1000 in the SNAPSHOTTING section (line 147)
-  maxmemory 500mb (line 453)
+  maxmemory 700mb (line 453)
+    - Best practice is 70% of system so we don't take all server resources!
   maxmemory-policy allkeys-lru (line 476)
 
 
@@ -230,3 +229,66 @@ To end, ctrl-C it.
 To enter the shell:
 redis-cli
   - you can also shutdown redis from here using shutdown
+
+
+nginx
+ubuntu 18.04 install instructions
+
+
+sudo apt update
+sudo apt install nginx
+sudo ufw allow 'Nginx Full'
+  - can also do HTTP or HTTPS or OpenSSH
+systemctl status nginx
+  - check if it's online
+
+
+For loadbalancing:
+
+sudo rm /etc/nginx/sites-available/default
+  - Delete the default configuration
+
+sudo vim /etc/nginx/conf.d/loadbalancer.conf
+  - Create new configuration for load balancing. SEE BELOW.
+
+Just copy paste this stuff in.
+  - The four servers are the private IPs of the cloned services
+upstream reviews {
+        server 172.31.50.55:3004;
+        server 172.31.26.41:3004;
+        server 172.31.20.198:3004;
+        server 172.31.27.4:3004;
+    }
+
+    server {
+        listen      80 default_server;
+        listen      [::]:80 default_server;
+        server_name tecmintapp.lan;
+
+        location / {
+                proxy_redirect      off;
+                proxy_set_header    X-Real-IP $remote_addr;
+                proxy_set_header    X-Forwarded-For $proxy_add_x_forwarded_for;
+                proxy_set_header    Host $http_host;
+                proxy_pass http://reviews;
+        }
+
+        location ~ \.txt {
+                root /var/www/data;
+        }
+}
+
+
+
+To serve up static files:
+
+cd /var/www/
+mkdir data
+  - create files in data
+  - for instance, create the loaderio.txt file here and it'll be queryable.
+
+- Put this location route in the server you are using!
+location ~ \.txt {
+  root /var/www/data;
+}
+  - Essentially what we're saying is that if URI ends in .txt, look in data folder for it.
