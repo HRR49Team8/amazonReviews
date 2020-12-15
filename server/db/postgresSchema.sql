@@ -65,7 +65,13 @@ END $part$;
 
 ---------------------- END SECTION ----------------------
 
-CREATE USER IF NOT EXISTS student WITH PASSWORD 'student';
+DO $$
+BEGIN
+  CREATE ROLE student WITH PASSWORD student;
+  EXCEPTION WHEN DUPLICATE_OBJECT THEN
+  RAISE NOTICE 'not creating role my_role -- it already exists';
+END
+$$;
 GRANT ALL PRIVILEGES ON DATABASE amazonreviews TO student;
 GRANT ALL ON ALL TABLES IN SCHEMA public TO student;
 GRANT ALL ON ALL SEQUENCES IN SCHEMA public TO student;
