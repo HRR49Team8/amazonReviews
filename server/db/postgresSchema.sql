@@ -2,6 +2,14 @@ DROP DATABASE IF EXISTS amazonreviews;
 
 CREATE DATABASE amazonreviews;
 
+DO $$
+BEGIN
+  CREATE ROLE student LOGIN PASSWORD student;
+  EXCEPTION WHEN DUPLICATE_OBJECT THEN
+  RAISE NOTICE 'not creating role my_role -- it already exists';
+END
+$$;
+
 \c amazonreviews;
 
 CREATE TABLE IF NOT EXISTS products (
@@ -65,13 +73,6 @@ END $part$;
 
 ---------------------- END SECTION ----------------------
 
-DO $$
-BEGIN
-  CREATE ROLE student WITH PASSWORD student;
-  EXCEPTION WHEN DUPLICATE_OBJECT THEN
-  RAISE NOTICE 'not creating role my_role -- it already exists';
-END
-$$;
 GRANT ALL PRIVILEGES ON DATABASE amazonreviews TO student;
 GRANT ALL ON ALL TABLES IN SCHEMA public TO student;
 GRANT ALL ON ALL SEQUENCES IN SCHEMA public TO student;
