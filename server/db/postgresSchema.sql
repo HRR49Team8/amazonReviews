@@ -16,25 +16,8 @@ CREATE TABLE IF NOT EXISTS users (
   avatar VARCHAR(2083)
 );
 
-CREATE TABLE IF NOT EXISTS reviews (
-  id SERIAL PRIMARY KEY,
-  product_id INT NOT NULL,
-  user_id INT NOT NULL,
-  overall_rating SMALLINT NOT NULL,
-  review_date TIMESTAMP NOT NULL,
-  headline VARCHAR(100) NOT NULL,
-  full_text VARCHAR(1024) NOT NULL,
-  helpful INT NOT NULL,
-  verified_purchase BOOLEAN,
-  product_photo VARCHAR(512),
-  CONSTRAINT fk_product FOREIGN KEY(product_id) REFERENCES products(id),
-  CONSTRAINT fk_user FOREIGN KEY(user_id) REFERENCES users(id)
-);
-
----------------------- RUN THIS FOR PARTITIONS! ----------------------
-
 -- CREATE TABLE IF NOT EXISTS reviews (
---   id SERIAL NOT NULL,
+--   id SERIAL PRIMARY KEY,
 --   product_id INT NOT NULL,
 --   user_id INT NOT NULL,
 --   overall_rating SMALLINT NOT NULL,
@@ -43,25 +26,42 @@ CREATE TABLE IF NOT EXISTS reviews (
 --   full_text VARCHAR(1024) NOT NULL,
 --   helpful INT NOT NULL,
 --   verified_purchase BOOLEAN,
---   product_photo VARCHAR(512)
--- ) PARTITION BY RANGE (product_id);
+--   product_photo VARCHAR(512),
+--   CONSTRAINT fk_product FOREIGN KEY(product_id) REFERENCES products(id),
+--   CONSTRAINT fk_user FOREIGN KEY(user_id) REFERENCES users(id)
+-- );
+
+---------------------- RUN THIS FOR PARTITIONS! ----------------------
+
+CREATE TABLE IF NOT EXISTS reviews (
+  id SERIAL NOT NULL,
+  product_id INT NOT NULL,
+  user_id INT NOT NULL,
+  overall_rating SMALLINT NOT NULL,
+  review_date TIMESTAMP NOT NULL,
+  headline VARCHAR(100) NOT NULL,
+  full_text VARCHAR(1024) NOT NULL,
+  helpful INT NOT NULL,
+  verified_purchase BOOLEAN,
+  product_photo VARCHAR(512)
+) PARTITION BY RANGE (product_id);
 
 
--- Creates ten partitions from 0-9 of reviews, indexes id and product_id columns
+-- Creates ten partitions from 0-9 of reviews
 -- With 10 million products, we partition into 10 partitions of 1 million each
 -- Each product has 0-20 reviews, so this becomes about 10 million records for each review partition
--- DO $part$
--- DECLARE partition_name TEXT;
--- BEGIN
---   FOR i IN 0..9 LOOP
---     EXECUTE format(
---       'CREATE TABLE IF NOT EXISTS r_part%s PARTITION OF reviews FOR VALUES FROM (%s) TO (%s)',
---       i,
---       i * 1000000 + 1,
---       i * 1000000 + 1000001
---     );
---   END LOOP;
--- END $part$;
+DO $part$
+DECLARE partition_name TEXT;
+BEGIN
+  FOR i IN 0..9 LOOP
+    EXECUTE format(
+      'CREATE TABLE IF NOT EXISTS r_part%s PARTITION OF reviews FOR VALUES FROM (%s) TO (%s)',
+      i,
+      i * 1000000 + 1,
+      i * 1000000 + 1000001
+    );
+  END LOOP;
+END $part$;
 
 ---------------------- END SECTION ----------------------
 
