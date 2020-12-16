@@ -28,7 +28,7 @@ class App extends Component {
   }
 
   componentDidMount() { // test from 900,000 to 999,999
-    const randomProductId = Math.floor(Math.random() * (100000)) + 900000;
+    const randomProductId = Math.floor(Math.random() * (10000000)) + 60000000;
     const url = window.location.href.split('/');
     const last = url[url.length - 1];
     const id = (isNaN(last) || last === '') ? randomProductId : last;
