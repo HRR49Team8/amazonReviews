@@ -3,8 +3,8 @@
 CREATE INDEX name_idx
 ON users(user_name);
 
-CREATE INDEX prod_id_idx
-ON reviews(product_id);
+-- CREATE INDEX prod_id_idx
+-- ON reviews(product_id);
 
 -- Run this when using partitioned review table!
 
