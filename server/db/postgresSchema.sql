@@ -4,9 +4,9 @@ CREATE DATABASE amazonreviews;
 
 DO $$
 BEGIN
-  CREATE ROLE student LOGIN PASSWORD student;
+  CREATE ROLE student LOGIN PASSWORD 'student';
   EXCEPTION WHEN DUPLICATE_OBJECT THEN
-  RAISE NOTICE 'not creating role my_role -- it already exists';
+  RAISE NOTICE 'not creating role student -- it already exists';
 END
 $$;
 
