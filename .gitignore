@@ -1,5 +1,6 @@
 # General configuration
 client/dist/bundle.js
+client/dist/index.js
 node_modules
 .env
 

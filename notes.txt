@@ -9,6 +9,7 @@ sudo apt-get install postgresql-10
 sudo passwd postgres
   (to set password)
 
+sudo systemctl enable postgresql
 sudo service postgresql start
   - To make an alias: alias pgstart='sudo service postgresql start'
 
@@ -142,6 +143,11 @@ sudo /etc/init.d/postgresql restart​
 
 sudo psql -h PRIVATEIP -U postgres
 
+To seed to private netowrk...
+psql -h PRIVATEIP -d amazonreviews -U postgres -c "\copy reviews(product_id, user_id, overall_rating, review_date, headline, full_text, helpful, verified_purchase, product_photo) from '/home/mikatpt/hackreactor/sdc/reviews/server/csv/reviews.csv' with delimiter as ',' csv header;"
+psql -h PRIVATEIP -d amazonreviews -U postgres -c "\copy products(product_name) from '/home/mikatpt/hackreactor/sdc/reviews/server/csv/products.csv' with delimiter as ',' csv header;"
+psql -h PRIVATEIP -d amazonreviews -U postgres -c "\copy users(user_name, country, avatar) from '/home/mikatpt/hackreactor/sdc/reviews/server/csv/users.csv' with delimiter as ',' csv header;"
+
 6. Set to auto-start
 
 sudo systemctl enable postgresql
@@ -170,7 +176,7 @@ Content-Type: application/json
 
 Post this to /api/reviews
 {
-    "product_id": 999993,
+    "product_id": 9999993,
     "user_name": "anonymous",
     "overall_rating": 5,
     "review_date": "2020-05-09 20:59:35.341",
@@ -183,7 +189,7 @@ Post this to /api/reviews
 
 
 After every artillery test, you'll want to delete the reviews you added in:
-delete from reviews where product_id = 999993 and user_id = 1000000;
+delete from reviews where product_id = 6999993 and user_id = 10000000;
 
 Postgres optimizations:
 
@@ -292,3 +298,33 @@ location ~ \.txt {
   root /var/www/data;
 }
   - Essentially what we're saying is that if URI ends in .txt, look in data folder for it.
+
+
+Is this all we need for caching purposes?
+
+proxy_cache_path /var/www/cache levels=1:2 keys_zone=my_cache:50m max_size=1g
+                 inactive=60m use_temp_path=off;
+
+server {
+    listen      80 default_server;
+    listen      [::]:80 default_server;
+    server_name tecmintapp.lan;
+
+    location / {
+            proxy_redirect      off;
+            proxy_set_header    X-Real-IP $remote_addr;
+            proxy_set_header    X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_set_header    Host $http_host;
+            proxy_cache my_cache;
+            proxy_pass http://reviews;
+    }
+
+    location ~ \.txt {
+            root /var/www/data;
+    }
+}
+
+do we need to add this?
+proxy_ignore_headers Cache-Control;
+
+I think we can also just allocate nginx 700mb of memory.
