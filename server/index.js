@@ -1,11 +1,15 @@
 require('dotenv').config();
 require('newrelic');
+const compression = require('compression');
 const express = require('express');
 const morgan = require('morgan');
 
 const { apiRoutes, webRoutes } = require('./routes');
 
 const app = express();
+
+const shouldCompress = (req, res) => (req.headers['x-no-compression'] ? false : compression.filter(req, res));
+app.use(compression({ filter: shouldCompress }));
 
 // Serve static index.html file
 app.use(express.static('client/dist'));

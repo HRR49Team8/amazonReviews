@@ -176,7 +176,7 @@ Content-Type: application/json
 
 Post this to /api/reviews
 {
-    "product_id": 9999993,
+    "product_id": 6999993,
     "user_name": "anonymous",
     "overall_rating": 5,
     "review_date": "2020-05-09 20:59:35.341",
@@ -248,11 +248,14 @@ sudo ufw allow 'Nginx Full'
 systemctl status nginx
   - check if it's online
 
+sudo nginx -t
+  - check if config is okay (MUST RUN AS SUDO)
 
 For loadbalancing:
 
-sudo rm /etc/nginx/sites-available/default
-  - Delete the default configuration
+vim /etc/nginx/sites-available/default
+  - Comment out the default configuration
+
 
 sudo vim /etc/nginx/conf.d/loadbalancer.conf
   - Create new configuration for load balancing. SEE BELOW.
@@ -266,7 +269,7 @@ upstream reviews {
         server 172.31.27.4:3004;
     }
 
-    server {
+server {
         listen      80 default_server;
         listen      [::]:80 default_server;
         server_name tecmintapp.lan;
